@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::middleware(['auth','admin'])->group(function () {
 
     Route::get('/events/create', [EventController::class,'create']);
-Route::post('/events', [EventController::class,'store'])
+Route::post('/events', [EventController::class,'store'])  
     ->name('events.store');
 });
 Route::get('/login', [AuthController::class, 'login'])->name('login');
