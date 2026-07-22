@@ -14,6 +14,8 @@ Route::middleware(['auth','admin'])->group(function () {
 Route::post('/events', [EventController::class,'store'])  
     ->name('events.store');
 });
+
+Route::post('/reservations/{event}' , [ReservationController::class, 'store'])->name('reservations.store');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.post');
 Route::post('/logout', [AuthController::class , 'logout'])->name('logout');

@@ -23,6 +23,12 @@
 </p>
         <hr>
     </div>
+    @if(auth()->user()->role == 'student')
+    <form action="{{ route('reservations.store', $event->id) }}" method="POST">
+        @csrf
+        <button type="submit">S'inscrire</button>
+    </form>
+@endif
 
 @endforeach
 
