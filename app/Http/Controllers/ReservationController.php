@@ -17,7 +17,7 @@ class ReservationController extends Controller
             return redirect('/events')->with('error', 'vous etes deja inscit à cet événement');
         }
 
-        if($event->reservation()->count()>= $event->capacity){
+        if($event->reservations()->count()>= $event->capacity){
             return redirect('/events')->with('error', 'cet événement est complet');
         }
 

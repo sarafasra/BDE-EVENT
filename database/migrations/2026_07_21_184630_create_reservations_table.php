@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservations', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+       Schema::create('reservations', function (Blueprint $table) {
+    $table->id();
+    $table->string('reservation_code')->unique();
+    $table->dateTime('reservation_date');
+
+    $table->foreignId('user_id') ->constrained()->cascadeOnDelete();
+    $table->foreignId('event_id') ->constrained()->cascadeOnDelete();
+
+    $table->timestamps();
+});
     }
 
     /**

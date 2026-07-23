@@ -1,36 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Events</title>
-</head>
-<body>
+    <meta charset="UTF-8">
+    <title>BDE Events</title>
 
-<h1>Liste des événements</h1>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+
+        <a class="navbar-brand" href="/events">
+            🎓 BDE Events
+        </a>
+
+        <div class="ms-auto">
+
+            <a href="/events" class="btn btn-light me-2">
+                Événements
+            </a>
+
+            @if(auth()->user()->role == 'admin')
+                <a href="/events/create" class="btn btn-warning me-2">
+                    Créer un événement
+                </a>
+            @endif
+
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button class="btn btn-danger">
+                    Déconnexion
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+<h2 class="mb-4">Liste des événements</h2>
+
+@if(session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
+
+<div class="row">
 
 @foreach($events as $event)
 
-    <div>
-        <h2>{{ $event->title }}</h2>
-        <p>{{ $event->description }}</p>
-        <p>Date : {{ $event->date }}</p>
-        <p>Lieu : {{ $event->location }}</p>
-        <p><strong>Capacité :</strong> {{ $event->capacity }}</p>
+<div class="col-md-4 mb-4">
+<div class="card border-0 shadow-lg rounded-4 h-100">
 
-<p><strong>Réservations :</strong> {{ $event->reservations()->count() }}</p>
+    <div class="card-body">
 
-<p><strong>Places restantes :</strong>
-    {{ $event->capacity - $event->reservations()->count() }}
-</p>
+        <h4 class="fw-bold text-primary mb-3">
+            {{ $event->title }}
+        </h4>
+
+        <p class="text-muted">
+            {{ $event->description }}
+        </p>
+
         <hr>
+
+        <p class="mb-2">
+            📅 <strong>Date :</strong> {{ $event->date }}
+        </p>
+
+        <p class="mb-2">
+            🕒 <strong>Heure :</strong> {{ $event->time }}
+        </p>
+
+        <p class="mb-2">
+            📍 <strong>Lieu :</strong> {{ $event->location }}
+        </p>
+
+        <p class="mb-3">
+            👥 <strong>Places :</strong>
+            {{ $event->reservations()->count() }}
+            /
+            {{ $event->capacity }}
+        </p>
+
+        @if($event->price == 0)
+
+            <span class="badge bg-success fs-6 px-3 py-2 mb-3">
+                🎉 Gratuit
+            </span>
+
+        @else
+
+            <span class="badge bg-warning text-dark fs-6 px-3 py-2 mb-3">
+                💰 {{ number_format($event->price,2) }} DH
+            </span>
+
+        @endif
+
+        @if(auth()->user()->role == 'student')
+
+            <div class="mt-3">
+
+                @if($event->price == 0)
+
+                    <form action="{{ route('reservations.store',$event->id) }}" method="POST">
+
+                        @csrf
+
+                        <button class="btn btn-primary w-100 rounded-pill">
+                            🎟 S'inscrire
+                        </button>
+
+                    </form>
+
+                @else
+
+                    <button class="btn btn-outline-secondary w-100 rounded-pill" disabled>
+                        Paiement requis
+                    </button>
+
+                @endif
+
+            </div>
+
+        @endif
+
     </div>
-    @if(auth()->user()->role == 'student')
-    <form action="{{ route('reservations.store', $event->id) }}" method="POST">
-        @csrf
-        <button type="submit">S'inscrire</button>
-    </form>
-@endif
+
+</div>
+
+</div>
 
 @endforeach
+
+</div>
+
+</div>
 
 </body>
 </html>
