@@ -89,7 +89,7 @@
 
     <a href="/events" class="btn btn-secondary">
         Annuler
-    </a>
+    </a>   
 
 </form>
 
