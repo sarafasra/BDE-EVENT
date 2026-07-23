@@ -18,26 +18,31 @@
 
         <div class="ms-auto">
 
-            <a href="/events" class="btn btn-light me-2">
-                Événements
-            </a>
+    <a href="/events" class="btn btn-light me-2">
+        Événements
+    </a>
 
-            @if(auth()->user()->role == 'admin')
-                <a href="/events/create" class="btn btn-warning me-2">
-                    Créer un événement
-                </a>
-            @endif
+    @if(auth()->user()->role == 'student')
+        <a href="{{ route('reservations.index') }}"
+           class="btn btn-success me-2">
+            🎟 Mes Billets
+        </a>
+    @endif
 
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button class="btn btn-danger">
-                    Déconnexion
-                </button>
-            </form>
+    @if(auth()->user()->role == 'admin')
+        <a href="/events/create" class="btn btn-warning me-2">
+            Créer un événement
+        </a>
+    @endif
 
-        </div>
+    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+        @csrf
+        <button class="btn btn-danger">
+            Déconnexion
+        </button>
+    </form>
 
-    </div>
+</div>
 </nav>
 
 <div class="container mt-5">

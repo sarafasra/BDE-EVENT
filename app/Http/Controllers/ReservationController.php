@@ -30,4 +30,10 @@ class ReservationController extends Controller
         ]);
          return redirect('/events')->with('success', 'Reservation effectuée avec succés');
     }
+
+    public function index(){
+        $reservation = Reservation::where('user_id' , auth()->id())
+        ->with('event')->get();
+        return view('reservations.index' ,compact('reservatios'));
+    }
 }
