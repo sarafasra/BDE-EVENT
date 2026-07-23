@@ -32,4 +32,35 @@ public function store(Request $request){
     Event::create($validate);
     return redirect('/events')->with('sucess', 'Evenement creer avec sucess');
 }
+public function edit(Event $event)
+{
+    return view('events.edit', compact('event'));
+}
+
+public function update(Request $request, Event $event)
+{
+    $request->validate([
+        'title'=>'required',
+        'description'=>'required',
+        'date'=>'required',
+        'time'=>'required',
+        'location'=>'required',
+        'price'=>'required|numeric|min:0',
+        'capacity'=>'required|integer|min:1',
+    ]);
+
+    $event->update($request->all());
+
+    return redirect('/events')
+        ->with('success','Événement modifié avec succès.');
+}
+
+
+public function destroy(Event $event)
+{
+    $event->delete();
+
+    return redirect('/events')
+        ->with('success','Événement supprimé avec succès.');
+}
 }

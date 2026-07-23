@@ -108,6 +108,36 @@
 
         @endif
 
+        @if(auth()->user()->role == 'admin')
+
+<div class="d-flex gap-2 mt-3">
+
+    <a href="{{ route('events.edit',$event->id) }}"
+       class="btn btn-warning w-50">
+        ✏ Modifier
+    </a>
+
+    <form action="{{ route('events.destroy',$event->id) }}"
+          method="POST"
+          class="w-50">
+
+        @csrf
+        @method('DELETE')
+
+        <button
+            class="btn btn-danger w-100"
+            onclick="return confirm('Supprimer cet événement ?')">
+
+            🗑 Supprimer
+
+        </button>
+
+    </form>
+
+</div>
+
+@endif
+
         @if(auth()->user()->role == 'student')
 
             <div class="mt-3">

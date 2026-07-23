@@ -20,3 +20,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.post');
 Route::post('/logout', [AuthController::class , 'logout'])->name('logout');
 Route::get('/events', [EventController::class, 'index'])->name('event.index');
+Route::get('/events/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+Route::put('/events/{events}', [EventController::class,'update'])->name('events.update');
+Route::delete('/events/{event}', [EventController::class, 'destroy'])
+    ->name('events.destroy');
